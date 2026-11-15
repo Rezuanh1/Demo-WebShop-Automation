@@ -3,17 +3,17 @@ const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-
+  fullyParallel: false,
   reporter: [
     ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['allure-playwright', {
-      resultsDir: 'allure-results'
-    }]
+    ['allure-playwright']
   ],
-
   use: {
-    screenshot: 'on',
+    baseURL: 'https://demowebshop.tricentis.com',
+    browserName: 'chromium',
+    headless: true,
+    screenshot: 'only-on-failure',
     trace: 'on'
   }
 });
