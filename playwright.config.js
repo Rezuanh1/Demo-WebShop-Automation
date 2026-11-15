@@ -6,8 +6,14 @@ module.exports = defineConfig({
 
   reporter: [
     ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['allure-playwright', {
       resultsDir: 'allure-results'
     }]
   ],
+
+  use: {
+    screenshot: 'on',
+    trace: 'on'
+  }
 });
