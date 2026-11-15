@@ -1,146 +1,142 @@
-# Demo WebShop Automation
-
-Playwright UI Automation and API Testing Assignment.
+# Demo Web Shop Automation & API Testing
 
 ## Project Overview
+This project automates UI testing of the Demo Web Shop application using Playwright and performs API testing using Postman and Newman.
 
-This project automates test scenarios for the Demo Web Shop website using Playwright with JavaScript and Page Object Model (POM).
-
-The project includes UI automation test cases for invalid login, user registration, product search, shopping cart, and checkout.
-
-## Tools & Technologies
-
+## Technologies Used
 - Playwright
 - JavaScript
 - Node.js
-- Page Object Model (POM)
 - Postman
 - Newman
+- Newman HTML Extra Reporter
 - Allure Report
-- GitHub
+- Git & GitHub
 
-## UI Automation Test Cases
+## Project Structure
+```text
+Demo-WebShop-Automation/
+├── API Automation/
+│   ├── newman/
+│   │   └── Newman HTML Report
+│   └── API Automation.postman_collection.json
+├── pages/
+├── tests/
+├── README.md
+├── package.json
+├── package-lock.json
+└── playwright.config.js
+```
 
-### Q1 – Invalid Login
+## Part A: UI Automation
 
-- Navigate to Demo Web Shop.
-- Enter invalid login credentials.
+### Q1: Invalid Login
+- Attempt login with invalid credentials.
 - Verify the error message.
+- Verify the user is not logged in.
 
-### Q2 – Register and Add Product to Cart
-
+### Q2: Register, Login & Add to Cart
 - Register a new user.
 - Login with registered credentials.
-- Navigate to Books category.
-- Select Computing and Internet product.
-- Add product to cart.
-- Verify product and quantity.
+- Select a product.
+- Add the product to the shopping cart.
+- Verify the cart product and quantity.
 
-### Q3 – Search Product and Complete Checkout
-
+### Q3: Search & Checkout
 - Search for a product.
 - Verify search results.
+- Open the product details.
 - Increase product quantity.
-- Add product to cart.
+- Add the product to the cart.
+- Accept terms and conditions.
 - Complete checkout.
 - Verify order confirmation and order details.
 
-## Project Structure
+### UI Test Execution
 
-```text
-Demo-WebShop-Automation/
-│
-├── pages/
-│   ├── LoginPage.js
-│   ├── RegisterPage.js
-│   ├── SearchPage.js
-│   └── CheckoutPage.js
-│
-├── tests/
-│   ├── q1-invalid-login.spec.js
-│   ├── q2-register-cart.spec.js
-│   └── q3-search-checkout.spec.js
-│
-├── playwright.config.js
-├── package.json
-├── package-lock.json
-└── README.md
-```
-
-## Installation
-
-Install project dependencies:
-
-```bash
-npm install
-```
-
-## Run UI Tests
-
-Run individual test cases:
-
-```bash
-npx playwright test tests/q1-invalid-login.spec.js
-```
-
-```bash
-npx playwright test tests/q2-register-cart.spec.js
-```
-
-```bash
-npx playwright test tests/q3-search-checkout.spec.js
-```
-
-Run all UI tests:
+Run all tests:
 
 ```bash
 npx playwright test
 ```
 
-## Playwright HTML Report
+Run individual tests:
 
-Open the HTML report:
+```bash
+npx playwright test tests/q1-invalid-login.spec.js
+npx playwright test tests/q2-register-cart.spec.js
+npx playwright test tests/q3-search-checkout.spec.js
+```
+
+### Playwright HTML Report
 
 ```bash
 npx playwright show-report
 ```
 
-## Allure Report
+## Part B: GitHub Workflow
+- Separate branches were created for individual questions.
+- Each question was committed separately.
+- Branches were merged into the main branch.
+- Project source code and reports are maintained in GitHub.
 
-Generate Allure report:
+## Part C: API Testing
+
+### API Used
+JSONPlaceholder API
+
+### Endpoints
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/users` | Retrieve users |
+| PUT | `/users/{id}` | Update user information |
+
+Base URL:
+`https://jsonplaceholder.typicode.com`
+
+### API Test Scenarios
+- Verify GET response status code is 200.
+- Verify response is a non-empty array.
+- Verify each user contains id, name, and email.
+- Dynamically save a user ID from the GET response.
+- Use the saved user ID in the PUT request.
+- Update name, email, and company name.
+- Verify PUT response status code is 200.
+- Verify returned ID matches the saved user ID.
+- Verify phone is not empty.
+- Verify updated name matches the submitted name.
+
+### API Test Execution
+
+Install Newman:
 
 ```bash
-npx allure generate allure-results --clean
+npm install -g newman
 ```
 
-Open Allure report:
+Install HTML reporter:
 
 ```bash
-npx allure open allure-report
+npm install -g newman-reporter-htmlextra
 ```
 
-## Test Execution Summary
+Run API tests:
 
-| Test Case | Status |
-|---|---|
-| Q1 – Invalid Login | Passed |
-| Q2 – Register and Add Product to Cart | Passed |
-| Q3 – Search Product and Complete Checkout | Passed |
+```bash
+newman run "API Automation.postman_collection.json" -r cli,htmlextra
+```
 
-All three UI automation test cases passed successfully.
+### Newman Test Results
+- Total Requests: 2
+- Total Assertions: 7
+- Passed Assertions: 7
+- Failed Assertions: 0
+- Skipped Tests: 0
 
-## Test Reports
+### Newman HTML Report
+The Newman HTML report is available in the `API Automation/newman` directory.
 
+## Reports
 - Playwright HTML Report
 - Allure Report
-- Screenshots and execution evidence
-
-## GitHub Workflow
-
-- Separate branches were created for Q1, Q2, and Q3.
-- Each question was developed in its respective branch.
-- Pull Requests were used to merge changes into the main branch.
-- The main branch contains the final project files.
-
-
-
+- Newman HTML Report
