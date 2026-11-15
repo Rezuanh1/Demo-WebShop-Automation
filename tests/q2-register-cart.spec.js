@@ -1,67 +1,65 @@
 
 const { test, expect } = require('@playwright/test');
 const RegisterPage = require('../pages/RegisterPage');
-const LoginPage = require('../pages/LoginPage');
 
-test('Q2 - Register, Login and Add Product to Cart', async ({ page }) => {
-
-    // 1. Open website
-    await page.goto('https://demowebshop.tricentis.com/');
-
-    // 2. Registration
-    await page.getByRole('link', { name: 'Register' }).click();
-
+test('Q2 - Register, Login and Add Product to Cart', async ({ page }, testInfo) => {
     const registerPage = new RegisterPage(page);
 
-    const user = {
-        firstName: 'Rr',
-        lastName: 'Mm',
-        email: `rrm1${Date.now()}@gmail.com`,
-        password: 'Test@12345'
-    };
+    const email = `rrm1${Date.now()}@gmail.com`;
+    const password = '12345678';
 
-    await registerPage.registerUser(user);
+    // Registration
+    await registerPage.openRegisterPage();
+    await registerPage.registerUser(
+        'Rr',
+        'Mm',
+        email,
+        password
+    );
 
-    // 3. Verify registration
-    await expect(page.locator('.result'))
+    await expect(registerPage.successMessage)
         .toContainText('Your registration completed');
 
-    // 4. Logout
+    
     await page.getByRole('link', { name: 'Log out' }).click();
 
-    // 5. Login
-    await page.getByRole('link', { name: 'Log in' }).click();
+    
+    const loginPage = require('../pages/LoginPage');
+    const login = new loginPage(page);
 
-    const loginPage = new LoginPage(page);
-    await loginPage.login(user.email, user.password);
+    await login.openLoginPage();
+    await login.login(email, password);
 
-    // 6. Verify login
-    await expect(
-        page.getByRole('link', { name: 'Log out' })
-    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Log out' }))
+        .toBeVisible();
 
-    // 7. Open Books category
-    await page.getByRole('link', { name: 'Books' }).first().click();
+   
+   await page.getByRole('link', { name: 'Books' }).first().click();
 
-    // 8. Open Computing and Internet
-    await page.locator('a[href="/computing-and-internet"]').last().click();
+    
+   await page.getByRole('link', {
+    name: 'Computing and Internet',
+    exact: true
+}).click();
 
-    // 9. Add product to cart
+    
     await page.locator('#add-to-cart-button-13').click();
 
-    // 10. Verify notification
-    await expect(page.locator('.bar-notification'))
-        .toContainText('The product has been added');
+    
+  await page.getByRole('link', {
+    name: 'Shopping cart',
+    exact: true
+}).click();
 
-    // 11. Open Shopping Cart
-    await page.locator('a.ico-cart').last().click();
+    await expect(page.locator('.cart-item-row')).toContainText(
+        'Computing and Internet'
+    );
 
-    // Verify product in cart
-await expect(page.locator('tr.cart-item-row'))
-    .toContainText('Computing and Internet');
+    await expect(page.locator('.qty-input')).toHaveValue('1');
 
-// Verify quantity
-await expect(page.locator('.qty-input'))
-    .toHaveValue('1');
-
+    
+    await testInfo.attach('Q2 Register Cart Screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+    });
 });
