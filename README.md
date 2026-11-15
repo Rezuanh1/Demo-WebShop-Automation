@@ -31,13 +31,10 @@ API testing is performed using JSONPlaceholder.
 ## Test Reports
 
 ### Allure Report
-![Allure Report](screenshots/allure-report.png)
+![Allure Report](Screenshot/allure-report.png)
 
 ### Playwright HTML Report
-![Playwright HTML Report](screenshots/playwright-report.png)
-
-### Newman HTML Report
-Newman HTML report is available in the `API Automation/newman/` directory.
+![Playwright Report](Screenshot/playwright-report.png)
 
 ## Project Structure
 
