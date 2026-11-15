@@ -1,5 +1,5 @@
 {
-  "name": "sqa-project",
+  "name": "ui-automation",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,6 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.65.1",
-    "allure-commandline": "^2.46.1",
     "allure-playwright": "^3.14.0"
   }
 }
